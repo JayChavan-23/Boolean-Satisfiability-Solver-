@@ -1,8 +1,6 @@
 # Contains main logic for the DPLL algorithm
 
 # Helper function
-from operator import is_
-
 
 def simplify_clauses(clauses, assignment):
     simplified = []
@@ -60,7 +58,7 @@ def unit_propagate(clauses,assignment):
             if var in assignment:
                 if assignment[var] != is_pos:
                     # Conflict found
-                    return None 
+                    return None , assignment
                 continue
             
             # Else assign 
@@ -71,7 +69,7 @@ def unit_propagate(clauses,assignment):
             clauses = simplify_clauses(clauses,assignment)
 
             if clauses is None:
-                return None 
+                return None , assignment
             
             break 
     return clauses,assignment
@@ -87,7 +85,6 @@ def dpll_solver(clauses, assignment):
 
     clauses, assignment = unit_propagate(clauses, assignment)
     if clauses is None:
-        
         return "UNSAT"
 
     if len(clauses) == 0:
